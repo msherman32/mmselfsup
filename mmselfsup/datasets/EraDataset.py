@@ -46,7 +46,12 @@ class NewDataset(BaseDataset):
             num_workers = 1
         )
         
-        return dict(img=img)
+        img = self.data_source.get_img(idx)
+        img = self.pipeline(img)
+        clustering_label = self.clustering_labels[idx]
+        if self.prefetch:
+            img = torch.from_numpy(to_numpy(img))
+        return dict(img=img, pseudo_label=clustering_label, idx=idx)
 
     def evaluate(self, results, logger=None):
         return NotImplemented
