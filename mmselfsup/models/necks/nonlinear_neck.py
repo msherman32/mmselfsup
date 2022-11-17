@@ -45,7 +45,7 @@ class NonLinearNeck(BaseModule):
                  with_last_bias=False,
                  with_avg_pool=True,
                  vit_backbone=False,
-                 norm_cfg=dict(type='BN'),
+                 norm_cfg=dict(type='BN1d'),
                  init_cfg=[
                      dict(
                          type='Constant',
