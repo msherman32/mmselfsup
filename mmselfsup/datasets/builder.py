@@ -14,6 +14,9 @@ from torch.utils.data import DataLoader
 from .samplers import DistributedSampler
 from .utils import PrefetchLoader
 
+from ..utils.datetime import Year, Days, Hours
+from .module import DataModule
+
 if platform.system() != 'Windows':
     # https://github.com/pytorch/pytorch/issues/973
     import resource
@@ -90,68 +93,32 @@ def build_dataloader(dataset,
     Returns:
         DataLoader: A PyTorch dataloader.
     """
-    if imgs_per_gpu is None and samples_per_gpu is None:
-        raise ValueError(
-            'Please inidcate number of images on each GPU, ',
-            '"imgs_per_gpu" and "samples_per_gpu" can not be "None" at the ',
-            'same time. "imgs_per_gpu" is deprecated, please use ',
-            '"samples_per_gpu".')
 
-    if imgs_per_gpu is not None:
-        warnings.warn(f'Got "imgs_per_gpu"={imgs_per_gpu} and '
-                      f'"samples_per_gpu"={samples_per_gpu}, "imgs_per_gpu"'
-                      f'={imgs_per_gpu} is used in this experiments. '
-                      'Automatically set "samples_per_gpu"="imgs_per_gpu"='
-                      f'{imgs_per_gpu} in this experiments')
-        samples_per_gpu = imgs_per_gpu
-
-    rank, world_size = get_dist_info()
-    if dist:
-        sampler = DistributedSampler(
-            dataset,
-            world_size,
-            rank,
-            shuffle=shuffle,
-            replace=replace,
-            seed=seed)
-        shuffle = False
-        batch_size = samples_per_gpu
-        num_workers = workers_per_gpu
-    else:
-        if replace:
-            return NotImplemented
-        sampler = None  # TODO: set replace
-        batch_size = num_gpus * samples_per_gpu
-        num_workers = num_gpus * workers_per_gpu
-
-    init_fn = partial(
-        worker_init_fn, num_workers=num_workers, rank=rank,
-        seed=seed) if seed is not None else None
-
-    if digit_version(torch.__version__) >= digit_version('1.8.0'):
-        kwargs['persistent_workers'] = persistent_workers
-
-    if kwargs.get('prefetch') is not None:
-        prefetch = kwargs.pop('prefetch')
-        img_norm_cfg = kwargs.pop('img_norm_cfg')
-    else:
-        prefetch = False
-    data_loader = DataLoader(
-        dataset,
-        batch_size=batch_size,
-        sampler=sampler,
-        num_workers=num_workers,
-        collate_fn=partial(collate, samples_per_gpu=samples_per_gpu),
-        pin_memory=pin_memory,
-        shuffle=shuffle,
-        worker_init_fn=init_fn,
-        **kwargs)
-
-    if prefetch:
-        data_loader = PrefetchLoader(data_loader, img_norm_cfg['mean'],
-                                     img_norm_cfg['std'])
-
-    return data_loader
+    data_module = DataModule(
+        dataset = "ERA5",
+        task = "forecasting",
+        root_dir = "/content/drive/MyDrive/Climate/.climate_tutorial/data/weatherbench/era5/5.625",
+        # root_highres_dir = ".climate_tutorial/data/weatherbench/era5/2.8125",
+        in_vars = ["2m_temperature", "total_precipitation"],
+        out_vars = ["2m_temperature"],
+        train_start_year = Year(2000),
+        val_start_year = Year(2015),
+        test_start_year = Year(2017),
+        end_year = Year(2018),
+        pred_range = Days(3),
+        subsample = Hours(6),
+        specify_range = True,
+        min_lat = 26,
+        max_lat = 50,
+        min_lon = 230,
+        max_lon = 310,
+        test_lat_start = 35,
+        test_lon_start = 0,
+        batch_size = 128,
+        num_workers = 1
+    )
+    
+    return data_module.train_dataloader()
 
 
 def worker_init_fn(worker_id, num_workers, rank, seed):
