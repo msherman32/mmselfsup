@@ -11,6 +11,8 @@ from .relative_loc import RelativeLocDataset
 from .rotation_pred import RotationPredDataset
 from .samplers import *  # noqa: F401,F403
 from .single_view import SingleViewDataset
+from .download import *
+from .module import *
 
 __all__ = [
     'DATASETS', 'DATASOURCES', 'PIPELINES', 'BaseDataset', 'build_dataloader',
