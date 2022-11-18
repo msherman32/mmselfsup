@@ -3,6 +3,10 @@ import glob
 import torch
 import numpy as np
 import xarray as xr
+from PIL import Image
+import torchvision
+import torchvision.transforms as T
+
 
 from tqdm.notebook import tqdm
 from torch.utils.data import Dataset
@@ -213,8 +217,9 @@ class ERA5ForecastingCustom(ERA5):
 
     def __getitem__(self, index):
         inp = torch.from_numpy(self.inp_data[index])
-        out = torch.from_numpy(self.out_data[index])
-        return self.inp_transform(inp), self.out_transform(out), self.in_vars, self.out_vars
+        transform = T.ToPILImage()
+        img = transform(inp)
+        return dict(img=img)
 
     def __len__(self):
         return len(self.inp_data)
