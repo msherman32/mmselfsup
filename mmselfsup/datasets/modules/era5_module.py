@@ -219,7 +219,7 @@ class ERA5ForecastingCustom(ERA5):
         inp = torch.from_numpy(self.inp_data[index])
         transform = T.ToPILImage()
         img = transform(inp)
-        return dict(img=img)
+        return dict(img=img, idx=index)
 
     def __len__(self):
         return len(self.inp_data)
