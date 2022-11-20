@@ -1,6 +1,6 @@
 import torch
 from mmcv.utils import build_from_cfg
-from torchvision.transforms import Compose
+from torchvision.transforms import Compose, ToPILImage
 
 from .base import BaseDataset
 from .builder import DATASETS, PIPELINES, build_datasource
@@ -47,21 +47,27 @@ class ERA5Dataset(BaseDataset):
             batch_size = 128,
             num_workers = 1
         )
-        self.data_source = data_module
+        self.data_source = data_module.train_dataset.inp_data
 
-    # TODO: Need to specify which split index should pull from? 
     def __getitem__(self, idx):
         
-        img = self.data_source.train_dataset.inp_data[idx]
+        data = self.data_source[idx]
         
-        img = img.astype(np.uint8)
-        img = Image.fromarray(img)
+        # img = img.astype(np.uint8)
+        # img = np.asarray(img)
+        # img = Image.fromarray(img)
+
+        data = torch.from_numpy(data)
+        transform = ToPILImage()
+        img = transform(data)
+
+
+        # img = self.pipeline(img)
 
         # img = self.data_source.get_img(idx)
-        img = self.pipeline(img)
-        clustering_label = self.clustering_labels[idx]
-        if self.prefetch:
-            img = torch.from_numpy(to_numpy(img))
+        # clustering_label = self.clustering_labels[idx]
+        # if self.prefetch:
+        #     img = torch.from_numpy(to_numpy(img))
         # return dict(img=img, pseudo_label=clustering_label, idx=idx)
         return dict(img=img, idx=idx)
 
