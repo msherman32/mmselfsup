@@ -18,5 +18,5 @@ __all__ = [
     'DATASETS', 'DATASOURCES', 'PIPELINES', 'BaseDataset', 'build_dataloader',
     'build_dataset', 'build_datasource', 'ConcatDataset', 'RepeatDataset',
     'DeepClusterDataset', 'MultiViewDataset', 'SingleViewDataset',
-    'RelativeLocDataset', 'RotationPredDataset'
+    'RelativeLocDataset', 'RotationPredDataset', 'ERA5Dataset'
 ]
