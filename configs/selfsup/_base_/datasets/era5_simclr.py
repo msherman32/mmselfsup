@@ -33,11 +33,11 @@ data = dict(
     workers_per_gpu=4,
     train=dict(
         type=dataset_type,
-        # data_source=dict(
-        #     # type=data_source,
-        #     data_prefix='/content/drive/MyDrive/Climate/.climate_tutorial/data/weatherbench/era5/5.625/',
-        #     # ann_file='data/imagenet/meta/train.txt',
-        # ),
+        data_source=dict(
+            type=data_source,
+            # data_prefix='/content/drive/MyDrive/Climate/.climate_tutorial/data/weatherbench/era5/5.625/',
+            # ann_file='data/imagenet/meta/train.txt',
+        ),
         num_views=[2],
         pipelines=[train_pipeline],
         prefetch=prefetch,
