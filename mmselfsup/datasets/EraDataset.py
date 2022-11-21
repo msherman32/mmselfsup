@@ -4,11 +4,13 @@ from torchvision.transforms import Compose, ToPILImage
 
 from .base import BaseDataset
 from .builder import DATASETS, PIPELINES, build_datasource
-from .utils import to_numpy
-from .modules import DataModule
-from .dateTime import Year, Days, Hours
-from PIL import Image
-import numpy as np
+# from .utils import to_numpy
+# from .modules import DataModule
+from .module import DataModule
+# import DataModule
+from ..utils.datetime import Year, Days, Hours
+# from PIL import Image
+# import numpy as np
 
 
 @DATASETS.register_module()
@@ -20,7 +22,8 @@ class ERA5Dataset(BaseDataset):
         data_module = DataModule(
             dataset = "ERA5",
             task = "forecasting",
-            root_dir = "era5/5.625",
+            # root_dir = "era5/5.625",
+            root_dir = '/content/drive/MyDrive/Climate/.climate_tutorial/data/weatherbench/era5/5.625/',
 
             in_vars = ["2m_temperature", "total_precipitation"],
             out_vars = ["2m_temperature"],

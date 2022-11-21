@@ -1,6 +1,7 @@
 _base_ = [
     '../_base_/models/simclr.py',
-    '../_base_/datasets/imagenet_simclr.py',
+    # '../_base_/datasets/imagenet_simclr.py',
+    '../_base_/datasets/era5_simclr.py',
     '../_base_/schedules/lars_coslr-200e_in1k.py',
     '../_base_/default_runtime.py',
 ]
