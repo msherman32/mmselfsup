@@ -61,8 +61,8 @@ class ERA5Dataset(BaseDataset):
         # img = Image.fromarray(img)
 
         data = torch.from_numpy(data)
-        transform = ToPILImage()
-        img = transform(data)
+        # transform = ToPILImage()
+        # img = transform(data)
 
 
         # img = self.pipeline(img)
@@ -72,7 +72,7 @@ class ERA5Dataset(BaseDataset):
         # if self.prefetch:
         #     img = torch.from_numpy(to_numpy(img))
         # return dict(img=img, pseudo_label=clustering_label, idx=idx)
-        return dict(img=img, idx=idx)
+        return dict(img=data, idx=idx)
 
     def evaluate(self, results, logger=None):
         return NotImplemented
