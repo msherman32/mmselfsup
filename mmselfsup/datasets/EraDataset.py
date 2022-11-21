@@ -60,7 +60,7 @@ class ERA5Dataset(BaseDataset):
         # img = np.asarray(img)
         # img = Image.fromarray(img)
 
-        data = torch.from_numpy(data)
+        # data = torch.from_numpy(data)
         # transform = ToPILImage()
         # img = transform(data)
 
