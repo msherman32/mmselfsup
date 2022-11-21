@@ -13,6 +13,8 @@ from .samplers import *  # noqa: F401,F403
 from .single_view import SingleViewDataset
 from .download import *
 from .module import *
+from .EraDataset import ERA5Dataset
+
 
 __all__ = [
     'DATASETS', 'DATASOURCES', 'PIPELINES', 'BaseDataset', 'build_dataloader',
