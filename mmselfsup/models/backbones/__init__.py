@@ -10,5 +10,5 @@ from .vision_transformer import VisionTransformer
 
 __all__ = [
     'ResNet', 'ResNetV1d', 'ResNeXt', 'MAEViT', 'MIMVisionTransformer',
-    'VisionTransformer', 'SimMIMSwinTransformer', 'CAEViT', 'MaskFeatViT'
+    'VisionTransformer', 'SimMIMSwinTransformer', 'CAEViT', 'MaskFeatViT', 'UNet'
 ]
