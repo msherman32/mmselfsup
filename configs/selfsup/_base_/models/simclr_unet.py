@@ -8,7 +8,7 @@ model = dict(
         ),
     neck=dict(
         type='NonLinearNeck',  # SimCLR non-linear neck
-        in_channels=2048,
+        in_channels=1024,
         hid_channels=2048,
         out_channels=128,
         num_layers=2,
