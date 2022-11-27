@@ -4,7 +4,7 @@ from torchvision.transforms import Compose, ToPILImage
 
 from .base import BaseDataset
 from .builder import DATASETS, PIPELINES, build_datasource
-# from .utils import to_numpy
+from .utils import to_numpy
 # from .modules import DataModule
 from .module import DataModule
 # import DataModule
@@ -65,28 +65,49 @@ class ERA5Dataset(BaseDataset):
             self.pipelines.append(pipeline)
         self.prefetch = prefetch
 
-    def __getitem__(self, idx):
-        
-        data = self.data_source[idx]
-        
-        # img = img.astype(np.uint8)
-        # img = np.asarray(img)
-        # img = Image.fromarray(img)
+        trans = []
+        assert isinstance(num_views, list)
+        for i in range(len(num_views)):
+            trans.extend([self.pipelines[i]] * num_views[i])
+        self.trans = trans
 
+    def __getitem__(self, idx):
+        # img = self.data_source.get_img(idx)
+        data = self.data_source[idx]
         data = torch.from_numpy(data)
         transform = ToPILImage()
         img = transform(data)
 
-
-        img = self.pipeline(img)
-
-        # img = self.data_source.get_img(idx)
-        # clustering_label = self.clustering_labels[idx]
+        multi_views = list(map(lambda trans: trans(img), self.trans))
         # if self.prefetch:
-        #     img = torch.from_numpy(to_numpy(img))
-        # return dict(img=img, pseudo_label=clustering_label, idx=idx)
-        # return dict(img=data, idx=idx)
-        return dict(img=img, idx=idx)
+        #     multi_views = [
+        #         torch.from_numpy(to_numpy(img)) for img in multi_views
+        #     ]
+        # return dict(img=multi_views, idx=idx)
+        return dict(img=multi_views)
+
+    # def __getitem__(self, idx):
+        
+    #     data = self.data_source[idx]
+        
+    #     # img = img.astype(np.uint8)
+    #     # img = np.asarray(img)
+    #     # img = Image.fromarray(img)
+
+    #     data = torch.from_numpy(data)
+    #     transform = ToPILImage()
+    #     img = transform(data)
+
+
+    #     # img = self.pipelines(img)
+
+    #     # img = self.data_source.get_img(idx)
+    #     # clustering_label = self.clustering_labels[idx]
+    #     # if self.prefetch:
+    #     #     img = torch.from_numpy(to_numpy(img))
+    #     # return dict(img=img, pseudo_label=clustering_label, idx=idx)
+    #     # return dict(img=data, idx=idx)
+    #     return dict(img=img, idx=idx)
 
     def evaluate(self, results, logger=None):
         return NotImplemented
