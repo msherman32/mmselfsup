@@ -57,12 +57,12 @@ class ERA5Dataset(BaseDataset):
 
         
         # self.pipelines = pipelines
-        pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
-        self.pipeline = Compose(pipeline)
-        # self.pipelines = []
-        # for pipe in pipelines:
-        #     pipeline = Compose([build_from_cfg(p, PIPELINES) for p in pipe])
-        #     self.pipelines.append(pipeline)
+        # pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
+        # self.pipeline = Compose(pipeline)
+        self.pipelines = []
+        for pipe in pipelines:
+            pipeline = Compose([build_from_cfg(p, PIPELINES) for p in pipe])
+            self.pipelines.append(pipeline)
         self.prefetch = prefetch
 
     def __getitem__(self, idx):
