@@ -73,7 +73,7 @@ class SimCLR(BaseModel):
         img = img.reshape(
             (img.size(0) * 2, img.size(2), img.size(3), img.size(4)))
         x = self.extract_feat(img)  # 2n
-        z = self.neck(x)[0]  # (2n)xd
+        z = self.neck([x[0]])[0]  # (2n)xd
         z = z / (torch.norm(z, p=2, dim=1, keepdim=True) + 1e-10)
         z = torch.cat(GatherLayer.apply(z), dim=0)  # (2N)xd
         assert z.size(0) % 2 == 0
