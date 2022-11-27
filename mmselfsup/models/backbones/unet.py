@@ -66,7 +66,7 @@ class UNet(_UNet):
                  strides=(1, 1, 1, 1, 1),
                  enc_num_convs=(2, 2, 2, 2, 2),
                  dec_num_convs=(2, 2, 2, 2),
-                 downsamples=(True, True, True, True),
+                 downsamples=(False, False, False, False),
                  enc_dilations=(1, 1, 1, 1, 1),
                  dec_dilations=(1, 1, 1, 1),
                  with_cp=False,
