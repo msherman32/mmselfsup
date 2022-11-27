@@ -27,8 +27,8 @@ class ERA5Dataset(BaseDataset):
             # root_dir = "era5/5.625",
             root_dir = '/content/drive/MyDrive/Climate/.climate_tutorial/data/weatherbench/era5/5.625/',
 
-            # in_vars = ["2m_temperature", "total_precipitation"],
-            in_vars = ["2m_temperature"],
+            in_vars = ["2m_temperature", "total_precipitation", "10m_u_component_of_wind"],
+            # in_vars = ["2m_temperature"],
             out_vars = ["2m_temperature"],
 
             train_start_year = Year(2000),
