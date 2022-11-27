@@ -19,6 +19,8 @@ class ERA5Dataset(BaseDataset):
     def __init__(self, data_source, num_views, pipelines, prefetch=False):
         # writing your code here
         
+        # self.data_source = build_datasource(data_source)
+
         data_module = DataModule(
             dataset = "ERA5",
             task = "forecasting",
@@ -51,6 +53,17 @@ class ERA5Dataset(BaseDataset):
             num_workers = 1
         )
         self.data_source = data_module.train_dataset.inp_data
+        # self.CLASSES = self.data_source.CLASSES
+
+        
+        # self.pipelines = pipelines
+        pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
+        self.pipeline = Compose(pipeline)
+        # self.pipelines = []
+        # for pipe in pipelines:
+        #     pipeline = Compose([build_from_cfg(p, PIPELINES) for p in pipe])
+        #     self.pipelines.append(pipeline)
+        self.prefetch = prefetch
 
     def __getitem__(self, idx):
         
@@ -61,18 +74,19 @@ class ERA5Dataset(BaseDataset):
         # img = Image.fromarray(img)
 
         data = torch.from_numpy(data)
-        # transform = ToPILImage()
-        # img = transform(data)
+        transform = ToPILImage()
+        img = transform(data)
 
 
-        # img = self.pipeline(img)
+        img = self.pipeline(img)
 
         # img = self.data_source.get_img(idx)
         # clustering_label = self.clustering_labels[idx]
         # if self.prefetch:
         #     img = torch.from_numpy(to_numpy(img))
         # return dict(img=img, pseudo_label=clustering_label, idx=idx)
-        return dict(img=data, idx=idx)
+        # return dict(img=data, idx=idx)
+        return dict(img=img, idx=idx)
 
     def evaluate(self, results, logger=None):
         return NotImplemented
