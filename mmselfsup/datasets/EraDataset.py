@@ -42,9 +42,9 @@ class ERA5Dataset(BaseDataset):
             specify_range = True,
 
             min_lat = 0,
-            max_lat = 90,
+            max_lat = 89,
             min_lon = 0,
-            max_lon = 90,
+            max_lon = 89,
             val_lat_start = 0,
             val_lon_start = 0,
             test_lat_start = 0,
