@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from mmseg.models.backbones import UNet as _UNet
+import torch
 
 from ..builder import BACKBONES
 
