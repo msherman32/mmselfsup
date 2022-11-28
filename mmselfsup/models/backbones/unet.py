@@ -99,3 +99,16 @@ class UNet(_UNet):
                  plugins=None,
                  pretrained=None,
                  init_cfg=None)
+        def rollout(self, x, y, clim, variables, out_variables, steps, metric, transform, lat, log_steps, log_days):
+            if steps > 1:
+                assert len(variables) == len(out_variables)
+
+            preds = []
+            for _ in range(steps):
+                x = self.forward(x)
+                preds.append(x)
+            preds = torch.stack(preds, dim=1)
+            if len(y.shape) == 4:
+                y = y.unsqueeze(1)
+
+            return [m(preds, y, clim, transform, out_variables, lat, log_steps, log_days) for m in metric], preds
