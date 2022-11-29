@@ -54,21 +54,19 @@ class ERA5DatasetFt(BaseDataset):
         self.data_source = self.data_module.train_dataset.inp_data
         # self.CLASSES = self.data_source.CLASSES
 
-        
-        # self.pipelines = pipelines
-        # pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
-        # self.pipeline = Compose(pipeline)
-        self.pipelines = []
-        for pipe in pipelines:
-            pipeline = Compose([build_from_cfg(p, PIPELINES) for p in pipe])
-            self.pipelines.append(pipeline)
-        self.prefetch = prefetch
+#         pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
+#         self.pipeline = Compose(pipeline)
+#         self.pipelines = []
+#         for pipe in pipelines:
+#             pipeline = Compose([build_from_cfg(p, PIPELINES) for p in pipe])
+#             self.pipelines.append(pipeline)
+#         self.prefetch = prefetch
 
-        trans = []
-        assert isinstance(num_views, list)
-        for i in range(len(num_views)):
-            trans.extend([self.pipelines[i]] * num_views[i])
-        self.trans = trans
+#         trans = []
+#         assert isinstance(num_views, list)
+#         for i in range(len(num_views)):
+#             trans.extend([self.pipelines[i]] * num_views[i])
+#         self.trans = trans
 
     def __getitem__(self, idx):
         # img = self.data_source.get_img(idx)
@@ -77,7 +75,7 @@ class ERA5DatasetFt(BaseDataset):
         transform = ToPILImage()
         img = transform(data)
 
-        multi_views = list(map(lambda trans: trans(img), self.trans))
+#         multi_views = list(map(lambda trans: trans(img), self.trans))
         # if self.prefetch:
         #     multi_views = [
         #         torch.from_numpy(to_numpy(img)) for img in multi_views
@@ -85,7 +83,7 @@ class ERA5DatasetFt(BaseDataset):
         # return dict(img=multi_views, idx=idx)
         img_meta = [{}]
         gt_labels = np.digitize(self.data_module.train_dataset.out_data[idx],[295, 300])
-        return dict(img=multi_views, img_metas=img_meta, gt_semantic_seg=gt_labels)
+        return dict(img=img, img_metas=img_meta, gt_semantic_seg=gt_labels)
 
     # def __getitem__(self, idx):
         
