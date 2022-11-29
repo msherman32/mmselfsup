@@ -54,7 +54,7 @@ class ERA5DatasetFt(BaseDataset):
         self.data_source = self.data_module.train_dataset.inp_data
         # self.CLASSES = self.data_source.CLASSES
 
-        pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
+        pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines[0]]
         self.pipeline = Compose(pipeline)
 #         self.pipelines = []
 #         for pipe in pipelines:
