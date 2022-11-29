@@ -67,6 +67,7 @@ class ERA5DatasetFt(BaseDataset):
 #         for i in range(len(num_views)):
 #             trans.extend([self.pipelines[i]] * num_views[i])
 #         self.trans = trans
+        self.buckets_list = [295,300]
 
     def __getitem__(self, idx):
         # img = self.data_source.get_img(idx)
@@ -83,7 +84,7 @@ class ERA5DatasetFt(BaseDataset):
         #     ]
         # return dict(img=multi_views, idx=idx)
         img_meta = [{}]
-        gt_labels = np.digitize(self.data_module.train_dataset.out_data[idx],[295, 300])
+        gt_labels = np.digitize(self.data_module.train_dataset.out_data[idx],self.buckets_list)
         return dict(img=img, img_metas=img_meta, gt_semantic_seg=gt_labels)
 
     # def __getitem__(self, idx):
