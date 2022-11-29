@@ -19,7 +19,7 @@ class ERA5DatasetFt(BaseDataset):
         
         # self.data_source = build_datasource(data_source)
 
-        data_module = DataModule(
+        self.data_module = DataModule(
             dataset = "ERA5",
             task = "forecasting",
             # root_dir = "era5/5.625",
@@ -51,7 +51,7 @@ class ERA5DatasetFt(BaseDataset):
             batch_size = 128,
             num_workers = 1
         )
-        self.data_source = data_module.train_dataset.inp_data
+        self.data_source = self.data_module.train_dataset.inp_data
         # self.CLASSES = self.data_source.CLASSES
 
         
@@ -84,7 +84,7 @@ class ERA5DatasetFt(BaseDataset):
         #     ]
         # return dict(img=multi_views, idx=idx)
         img_meta = [{}]
-        gt_labels = np.digitize(data_module.train_dataset.out_data[idx],[295, 300])
+        gt_labels = np.digitize(self.data_module.train_dataset.out_data[idx],[295, 300])
         return dict(img=multi_views, img_metas=img_meta, gt_semantic_seg=gt_labels)
 
     # def __getitem__(self, idx):
