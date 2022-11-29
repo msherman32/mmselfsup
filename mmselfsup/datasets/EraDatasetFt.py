@@ -54,8 +54,8 @@ class ERA5DatasetFt(BaseDataset):
         self.data_source = self.data_module.train_dataset.inp_data
         # self.CLASSES = self.data_source.CLASSES
 
-#         pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
-#         self.pipeline = Compose(pipeline)
+        pipeline = [build_from_cfg(p, PIPELINES) for p in pipelines]
+        self.pipeline = Compose(pipeline)
 #         self.pipelines = []
 #         for pipe in pipelines:
 #             pipeline = Compose([build_from_cfg(p, PIPELINES) for p in pipe])
@@ -76,6 +76,7 @@ class ERA5DatasetFt(BaseDataset):
         img = transform(data)
 
 #         multi_views = list(map(lambda trans: trans(img), self.trans))
+        img = self.pipeline(img)
         # if self.prefetch:
         #     multi_views = [
         #         torch.from_numpy(to_numpy(img)) for img in multi_views
