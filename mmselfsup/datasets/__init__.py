@@ -14,11 +14,12 @@ from .single_view import SingleViewDataset
 from .download import *
 from .module import *
 from .EraDataset import ERA5Dataset
+from .EraDatasetFt import ERA5DatasetFt
 
 
 __all__ = [
     'DATASETS', 'DATASOURCES', 'PIPELINES', 'BaseDataset', 'build_dataloader',
     'build_dataset', 'build_datasource', 'ConcatDataset', 'RepeatDataset',
     'DeepClusterDataset', 'MultiViewDataset', 'SingleViewDataset',
-    'RelativeLocDataset', 'RotationPredDataset', 'ERA5Dataset'
+    'RelativeLocDataset', 'RotationPredDataset', 'ERA5Dataset', 'ERA5DatasetFt'
 ]
