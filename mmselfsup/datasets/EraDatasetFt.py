@@ -9,6 +9,7 @@ from .utils import to_numpy
 from .module import DataModule
 from ..utils.datetime import Year, Days, Hours
 import numpy as np
+import copy
 
 
 @DATASETS.register_module()
@@ -70,7 +71,8 @@ class ERA5DatasetFt(BaseDataset):
         self.bins = self.bins / 255
 
     def __getitem__(self, idx):
-        data = self.data_source[idx]
+        data2 = self.data_source[idx]
+        data = copy.deepcopy(data2)
 
         ###
         data[0] = data[0] - 200
@@ -92,7 +94,8 @@ class ERA5DatasetFt(BaseDataset):
         img_meta = [{}]
 
         ###
-        gt = self.data_module.train_dataset.out_data[idx]
+        gt2 = self.data_module.train_dataset.out_data[idx]
+        gt = copy.deepcopy(gt2)
         gt[0] = gt[0] - 200
         gt = gt.astype(np.uint8)
         gt = gt / 255
