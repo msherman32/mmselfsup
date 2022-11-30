@@ -27,7 +27,7 @@ class ERA5Dataset(BaseDataset):
             # root_dir = "era5/5.625",
             root_dir = '/content/drive/MyDrive/Climate/.climate_tutorial/data/weatherbench/era5/5.625/',
 
-            in_vars = ["2m_temperature", "total_precipitation", "10m_u_component_of_wind"],
+            in_vars = ["2m_temperature", "total_precipitation", "total_cloud_cover"],
             # in_vars = ["2m_temperature"],
             out_vars = ["2m_temperature"],
 
@@ -45,8 +45,6 @@ class ERA5Dataset(BaseDataset):
             max_lat = 50,
             min_lon = 230,
             max_lon = 310,
-            val_lat_start = 35,
-            val_lon_start = 0,
             test_lat_start = 35,
             test_lon_start = 0,
 
