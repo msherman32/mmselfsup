@@ -11,6 +11,7 @@ from .module import DataModule
 from ..utils.datetime import Year, Days, Hours
 # from PIL import Image
 import numpy as np
+import copy
 
 
 @DATASETS.register_module()
@@ -73,7 +74,8 @@ class ERA5Dataset(BaseDataset):
 
     def __getitem__(self, idx):
         # img = self.data_source.get_img(idx)
-        data = self.data_source[idx]
+        data2 = self.data_source[idx]
+        data = copy.deepcopy(data2)
         
         ###
         data[0] = data[0] - 200
