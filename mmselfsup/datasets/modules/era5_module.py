@@ -25,6 +25,7 @@ NAME_TO_VAR = {
     "temperature": "t",
     "relative_humidity": "r",
     "specific_humidity": "q",
+    "total_cloud_cover" = "tcc",
 }
 
 VAR_TO_NAME = {v: k for k, v in NAME_TO_VAR.items()}
