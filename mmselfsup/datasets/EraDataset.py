@@ -52,6 +52,7 @@ class ERA5Dataset(BaseDataset):
             num_workers = 1
         )
         self.data_source = data_module.train_dataset.inp_data
+            
         # self.CLASSES = self.data_source.CLASSES
 
         
@@ -73,6 +74,14 @@ class ERA5Dataset(BaseDataset):
     def __getitem__(self, idx):
         # img = self.data_source.get_img(idx)
         data = self.data_source[idx]
+        
+        ###
+        data[0] = data[0] - 200
+        data[1] = np.zeros(data[1].shape)
+        data[2] = np.zeros(data[2].shape)
+        data = data.astype(np.uint8)
+        ###
+        
         data = torch.from_numpy(data)
         transform = ToPILImage()
         img = transform(data)
