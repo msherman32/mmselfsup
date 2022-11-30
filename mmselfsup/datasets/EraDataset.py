@@ -10,7 +10,7 @@ from .module import DataModule
 # import DataModule
 from ..utils.datetime import Year, Days, Hours
 # from PIL import Image
-# import numpy as np
+import numpy as np
 
 
 @DATASETS.register_module()
