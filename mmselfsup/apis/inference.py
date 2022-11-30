@@ -53,7 +53,7 @@ def init_model(config: Union[str, mmcv.Config],
 def inference_model(
         model: nn.Module,
         data: Image,
-        img_metas: List) -> Tuple[torch.Tensor, Union[torch.Tensor, dict]]:
+        img_metas: list) -> Tuple[torch.Tensor, Union[torch.Tensor, dict]]:
     """Inference an image with the model.
     Args:
         model (nn.Module): The loaded model.
