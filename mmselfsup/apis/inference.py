@@ -80,7 +80,7 @@ def inference_model(
         data = scatter(data, [device])[0]
 
     # forward the model
-    img_meta = [{}]
+    img_meta = [[{}]]
     with torch.no_grad():
-        output = model(data, img_metas=img_meta, return_loss=False)
+        output = model([data], img_metas=img_meta, return_loss=False)
     return data, output
