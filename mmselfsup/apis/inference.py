@@ -82,5 +82,5 @@ def inference_model(
     # forward the model
     img_meta = [{}]
     with torch.no_grad():
-        output = model(data, img_metas=img_meta)
+        output = model(data, img_metas=img_meta, return_loss=False)
     return data, output
