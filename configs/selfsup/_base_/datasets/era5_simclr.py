@@ -1,7 +1,7 @@
 # dataset settings
 data_source = 'EraDataSource'
 dataset_type = 'ERA5Dataset'
-img_norm_cfg = dict(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+# img_norm_cfg = dict(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 train_pipeline = [
     # dict(type='RandomResizedCrop', size=224),
     dict(type='RandomHorizontalFlip'),
@@ -24,8 +24,7 @@ train_pipeline = [
 prefetch = False
 if not prefetch:
     train_pipeline.extend(
-        [dict(type='ToTensor'),
-         dict(type='Normalize', **img_norm_cfg)])
+        [dict(type='ToTensor')])
 
 # dataset summary
 data = dict(
