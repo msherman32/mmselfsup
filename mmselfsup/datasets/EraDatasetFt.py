@@ -65,16 +65,24 @@ class ERA5DatasetFt(BaseDataset):
 #         for i in range(len(num_views)):
 #             trans.extend([self.pipelines[i]] * num_views[i])
 #         self.trans = trans
-        self.buckets_list = [295,300]
+        self.bins = np.array([295,300])
+        self.bins = self.bins - 200
+        self.bins = self.bins / 255
 
     def __getitem__(self, idx):
-        # img = self.data_source.get_img(idx)
         data = self.data_source[idx]
+
+        ###
+        data[0] = data[0] - 200
+        data[1] = np.zeros(data[1].shape)
+        data[2] = np.zeros(data[2].shape)
+        data = data.astype(np.uint8)
+        ###
+
         data = torch.from_numpy(data)
         transform = ToPILImage()
         img = transform(data)
 
-#         multi_views = list(map(lambda trans: trans(img), self.trans))
         img = self.pipeline(img)
         # if self.prefetch:
         #     multi_views = [
@@ -82,7 +90,15 @@ class ERA5DatasetFt(BaseDataset):
         #     ]
         # return dict(img=multi_views, idx=idx)
         img_meta = [{}]
-        gt_labels = np.digitize(self.data_module.train_dataset.out_data[idx],self.buckets_list)
+
+        ###
+        gt = self.data_module.train_dataset.out_data[idx]
+        gt[0] = gt[0] - 200
+        gt = gt.astype(np.uint8)
+        gt = gt / 255
+        ###
+
+        gt_labels = np.digitize(gt,self.bins)
         return dict(img=img, img_metas=img_meta, gt_semantic_seg=gt_labels)
 
     # def __getitem__(self, idx):
