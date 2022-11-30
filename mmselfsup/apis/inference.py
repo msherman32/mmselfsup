@@ -52,7 +52,8 @@ def init_model(config: Union[str, mmcv.Config],
 
 def inference_model(
         model: nn.Module,
-        data: Image) -> Tuple[torch.Tensor, Union[torch.Tensor, dict]]:
+        data: Image,
+        img_metas: List) -> Tuple[torch.Tensor, Union[torch.Tensor, dict]]:
     """Inference an image with the model.
     Args:
         model (nn.Module): The loaded model.
@@ -80,7 +81,6 @@ def inference_model(
         data = scatter(data, [device])[0]
 
     # forward the model
-    img_meta = [[{}]]
     with torch.no_grad():
         output = model([data], img_metas=img_meta, return_loss=False)
     return data, output
