@@ -79,8 +79,8 @@ class ERA5Dataset(BaseDataset):
         
         ###
         data[0] = data[0] - 200
-        data[1] = np.zeros(data[1].shape)
-        data[2] = np.zeros(data[2].shape)
+        data[1] = 100*np.ones(data[1].shape)
+        data[2] = 100*np.ones(data[2].shape)
         data = data.astype(np.uint8)
         ###
         
